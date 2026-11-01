@@ -7,13 +7,26 @@ TEST_MAP = {
     "inventory.py": ["tests/test_inventory.py"],
 }
 
+
 def get_changed_files():
-    result = subprocess.run(
+    changed = set()
+
+    commands = [
         ["git", "diff", "--name-only", "HEAD"],
-        capture_output=True,
-        text=True
-    )
-    return result.stdout.splitlines()
+        ["git", "diff", "--name-only", "HEAD~1", "HEAD"]
+    ]
+
+    for command in commands:
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True
+        )
+        if result.returncode == 0:
+            changed.update(result.stdout.splitlines())
+
+    return sorted(changed)
+
 
 def select_tests(changed_files):
     selected = set()

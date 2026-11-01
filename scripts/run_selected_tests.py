@@ -5,26 +5,22 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from test_selector import select_tests
+from test_selector import select_tests, get_changed_files
 
 
 def main():
-    if len(sys.argv) < 2:
-        print("Provide changed file paths.")
-        return
+    changed_files = get_changed_files()
 
-    changed_files = sys.argv[1:]
+    print("Changed files:", changed_files)
+
     selected_tests = select_tests(changed_files)
 
     if not selected_tests:
         print("No matching tests found.")
         return
 
-    print("Selected tests:")
-    for test in selected_tests:
-        print(test)
+    print("Selected tests:", selected_tests)
 
-    print("\nRunning selected tests...")
     subprocess.run(
         [sys.executable, "-m", "pytest", "-v"] + selected_tests,
         cwd=ROOT

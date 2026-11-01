@@ -10,3 +10,4 @@ class Inventory:
             raise ValueError("not enough stock")
         self.stock[name] -= qty
         # Testing independent module invalidation
+        # Testing inventory change detection
