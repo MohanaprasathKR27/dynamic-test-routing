@@ -9,23 +9,12 @@ TEST_MAP = {
 
 
 def get_changed_files():
-    changed = set()
-
-    commands = [
-        ["git", "diff", "--name-only", "HEAD"],
-        ["git", "diff", "--name-only", "HEAD~1", "HEAD"]
-    ]
-
-    for command in commands:
-        result = subprocess.run(
-            command,
-            capture_output=True,
-            text=True
-        )
-        if result.returncode == 0:
-            changed.update(result.stdout.splitlines())
-
-    return sorted(changed)
+    result = subprocess.run(
+        ["git", "diff", "--name-only", "HEAD~1", "HEAD"],
+        capture_output=True,
+        text=True
+    )
+    return result.stdout.splitlines()
 
 
 def select_tests(changed_files):
@@ -38,4 +27,3 @@ def select_tests(changed_files):
             selected.update(TEST_MAP[filename])
 
     return sorted(selected)
-pytest
