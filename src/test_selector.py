@@ -38,3 +38,4 @@ def select_tests(changed_files):
             selected.update(TEST_MAP[filename])
 
     return sorted(selected)
+pytest
