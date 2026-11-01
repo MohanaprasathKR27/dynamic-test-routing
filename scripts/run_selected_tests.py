@@ -5,8 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from test_selector import select_tests, get_changed_files
-
+from selector import select_tests, get_changed_files
 
 def main():
     changed_files = get_changed_files()
